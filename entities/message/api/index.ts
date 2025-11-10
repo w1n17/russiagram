@@ -37,7 +37,7 @@ export async function sendMessage(message: {
 }): Promise<Message> {
   const { data, error } = await supabase
     .from('messages')
-    .insert(message)
+    .insert(message as any)
     .select(`
       *,
       sender:profiles(*)
@@ -51,18 +51,18 @@ export async function sendMessage(message: {
 export async function createConversation(participants: string[]): Promise<Conversation> {
   const { data: conversation, error: convError } = await supabase
     .from('conversations')
-    .insert({})
+    .insert({} as any)
     .select()
     .single();
 
   if (convError) throw convError;
 
   const participantRecords = participants.map((userId) => ({
-    conversation_id: conversation.id,
+    conversation_id: (conversation as any).id,
     user_id: userId,
   }));
 
-  await supabase.from('conversation_participants').insert(participantRecords);
+  await supabase.from('conversation_participants').insert(participantRecords as any);
 
-  return conversation;
+  return conversation as any;
 }
