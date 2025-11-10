@@ -39,7 +39,7 @@ export const useUserStore = create<UserState>((set) => ({
               id: user.id,
               username: user.email?.split('@')[0] || 'user',
               full_name: user.user_metadata?.full_name || '',
-            })
+            } as any)
             .select()
             .single();
           

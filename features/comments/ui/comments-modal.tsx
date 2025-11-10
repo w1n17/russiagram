@@ -71,7 +71,7 @@ export function CommentsModal({ isOpen, onClose, postId, postImageUrl }: Comment
           post_id: postId,
           user_id: currentUser.id,
           text: newComment.trim(),
-        })
+        } as any)
         .select(`
           *,
           user:profiles(id, username, full_name, avatar_url)

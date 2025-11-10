@@ -18,12 +18,12 @@ export async function getFeedPosts(limit = 20, offset = 0): Promise<Post[]> {
   if (!data) return [];
 
   // Маппинг с is_liked и счётчиками
-  return data.map(post => ({
+  return data.map((post: any) => ({
     ...post,
     is_liked: post.likes?.some((like: any) => like.user_id === user?.id) || false,
     likes_count: post.likes?.length || 0,
     comments_count: post.comments?.[0]?.count || 0,
-  }));
+  })) as Post[];
 }
 
 export async function getPostById(id: string): Promise<Post | null> {
@@ -55,12 +55,12 @@ export async function getUserPosts(userId: string): Promise<Post[]> {
 
   if (!data) return [];
 
-  return data.map(post => ({
+  return data.map((post: any) => ({
     ...post,
     is_liked: post.likes?.some((like: any) => like.user_id === user?.id) || false,
     likes_count: post.likes?.length || 0,
     comments_count: post.comments?.[0]?.count || 0,
-  }));
+  })) as Post[];
 }
 
 export async function createPost(post: {
@@ -72,7 +72,7 @@ export async function createPost(post: {
 }): Promise<Post> {
   const { data, error } = await supabase
     .from('posts')
-    .insert(post)
+    .insert(post as any)
     .select(`
       *,
       user:profiles(*)
@@ -89,6 +89,7 @@ export async function deletePost(id: string): Promise<void> {
 }
 
 export async function toggleLike(postId: string, userId: string): Promise<boolean> {
+  // Проверка существующего лайка
   const { data: existingLike } = await supabase
     .from('likes')
     .select('id')
@@ -97,15 +98,18 @@ export async function toggleLike(postId: string, userId: string): Promise<boolea
     .single();
 
   if (existingLike) {
-    await supabase.from('likes').delete().eq('id', existingLike.id);
+    // Удаление лайка
+    await supabase.from('likes').delete().eq('id', (existingLike as any).id);
     return false;
   } else {
-    await supabase.from('likes').insert({ post_id: postId, user_id: userId });
+    // Добавление лайка
+    await supabase.from('likes').insert({ post_id: postId, user_id: userId } as any);
     return true;
   }
 }
 
 export async function toggleSave(postId: string, userId: string): Promise<boolean> {
+  // Проверка существующего сохранения
   const { data: existingSave } = await supabase
     .from('saved_posts')
     .select('id')
@@ -114,10 +118,12 @@ export async function toggleSave(postId: string, userId: string): Promise<boolea
     .single();
 
   if (existingSave) {
-    await supabase.from('saved_posts').delete().eq('id', existingSave.id);
+    // Удаление сохранения
+    await supabase.from('saved_posts').delete().eq('id', (existingSave as any).id);
     return false;
   } else {
-    await supabase.from('saved_posts').insert({ post_id: postId, user_id: userId });
+    // Добавление сохранения
+    await supabase.from('saved_posts').insert({ post_id: postId, user_id: userId } as any);
     return true;
   }
 }
