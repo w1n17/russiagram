@@ -24,7 +24,7 @@ export async function createComment(comment: {
 }): Promise<Comment> {
   const { data, error } = await supabase
     .from('comments')
-    .insert(comment)
+    .insert(comment as any)
     .select(`
       *,
       user:profiles(*)
