@@ -38,6 +38,7 @@ export async function getUserById(id: string): Promise<Profile | null> {
 export async function updateUserProfile(id: string, updates: Partial<Profile>) {
   const { data, error } = await supabase
     .from('profiles')
+    // @ts-expect-error - Supabase type issue with update
     .update(updates)
     .eq('id', id)
     .select()
