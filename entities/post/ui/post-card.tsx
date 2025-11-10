@@ -25,7 +25,7 @@ export function PostCard({ post, onLike, onComment, onShare, onSave }: PostCardP
   const isCarousel = post.media_type === 'carousel' && post.media_urls.length > 1;
 
   return (
-    <article className="bg-white border-0 md:border md:border-[#dbdbdb] md:rounded-sm mb-0 md:mb-3 w-full">
+    <article className="bg-white border border-[#dbdbdb] rounded-sm overflow-hidden mb-12">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-3.5 md:px-4 md:py-3">
         <Link href={ROUTES.PROFILE(post.user?.username || '')} className="flex items-center gap-3">

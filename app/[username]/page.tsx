@@ -4,13 +4,14 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Header } from '@/widgets/header/ui/header';
 import { Avatar, Button } from '@/shared/ui';
-import { getUserByUsername } from '@/entities/user';
+import { getUserByUsername, useUserStore } from '@/entities/user';
 import { getUserPosts } from '@/entities/post';
 import { Profile, Post } from '@/shared/types';
 import { Settings, Grid, Bookmark, User as UserIcon, Heart, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { formatNumber } from '@/shared/lib/utils';
 import { CreatePostModal } from '@/features/create-post/ui/create-post-modal';
+import { EditProfileModal } from '@/features/profile/ui/edit-profile-modal';
 
 export default function ProfilePage() {
   const params = useParams();
@@ -20,6 +21,17 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'posts' | 'saved'>('posts');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { currentUser, loading: userLoading } = useUserStore();
+  
+  // Вычисляем isOwnProfile напрямую - ТОЛЬКО если пользователь залогинен
+  const isOwnProfile = Boolean(
+    !userLoading && 
+    currentUser && 
+    profile && 
+    currentUser.id === profile.id
+  );
+  
 
   useEffect(() => {
     loadProfile();
@@ -91,12 +103,56 @@ export default function ProfilePage() {
                 {/* Username and buttons */}
                 <div className="flex items-center gap-5 mb-5">
                   <h1 className="text-xl font-light">{profile.username}</h1>
-                  <Button variant="secondary" size="sm" className="h-8 px-4 text-sm font-semibold">
-                    Редактировать профиль
-                  </Button>
-                  <button className="p-2 hover:bg-gray-100 rounded-full">
-                    <Settings size={24} strokeWidth={1.5} />
-                  </button>
+                  {!userLoading && (
+                    isOwnProfile ? (
+                      // ЭТО СВОЙ ПРОФИЛЬ - показываем "Редактировать"
+                      <>
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          className="h-8 px-4 text-sm font-semibold"
+                          onClick={() => setIsEditModalOpen(true)}
+                        >
+                          Редактировать профиль
+                        </Button>
+                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                          <Settings size={24} strokeWidth={1.5} />
+                        </button>
+                      </>
+                    ) : (
+                      // ЧУЖОЙ ПРОФИЛЬ или НЕ ЗАЛОГИНЕН - показываем кнопки подписки
+                      <>
+                        <Button 
+                          variant="primary" 
+                          size="sm" 
+                          className="h-8 px-4 text-sm font-semibold"
+                          onClick={() => {
+                            if (!currentUser) {
+                              window.location.href = '/auth/login';
+                            } else {
+                              alert('Функция подписки в разработке');
+                            }
+                          }}
+                        >
+                          Подписаться
+                        </Button>
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          className="h-8 px-4 text-sm font-semibold"
+                          onClick={() => {
+                            if (!currentUser) {
+                              window.location.href = '/auth/login';
+                            } else {
+                              alert('Функция сообщений в разработке');
+                            }
+                          }}
+                        >
+                          Сообщение
+                        </Button>
+                      </>
+                    )
+                  )}
                 </div>
 
                 {/* Stats */}
@@ -213,6 +269,19 @@ export default function ProfilePage() {
           </div>
         </div>
       </main>
+
+      <CreatePostModal 
+        isOpen={isCreateModalOpen} 
+        onClose={() => setIsCreateModalOpen(false)} 
+      />
+      
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSuccess={() => {
+          loadProfile(); // Перезагружаем профиль после редактирования
+        }}
+      />
     </>
   );
 }

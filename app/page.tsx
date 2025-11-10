@@ -12,11 +12,7 @@ export default function Home() {
     <>
       <Header onCreateClick={() => setIsCreateModalOpen(true)} />
       <main className="pt-[80px] md:pt-[80px] pb-14 md:pb-0 min-h-screen bg-[#fafafa]">
-        <div className="w-full flex justify-center">
-          <div className="w-full max-w-[935px] px-5">
-            <Feed />
-          </div>
-        </div>
+        <Feed />
       </main>
       <CreatePostModal
         isOpen={isCreateModalOpen}

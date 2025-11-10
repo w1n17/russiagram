@@ -4,8 +4,8 @@ import { ToastContainer } from "@/shared/ui";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Russiagram - Instagram Clone",
-  description: "Instagram clone with Next.js, TypeScript, and Supabase",
+  title: "Russiagram",
+  description: "Я считаю можно поставить 5",
 };
 
 export default function RootLayout({
