@@ -119,7 +119,7 @@ export function StoriesBar() {
                   hasStory={currentUserGroupIndex !== -1}
                 />
                 {currentUserGroupIndex === -1 && (
-                  <div className="absolute bottom-0.5 right-0.5 w-6 h-6 rounded-full bg-[#0095f6] flex items-center justify-center border-[2px] border-white">
+                  <div className="absolute bottom-0.5 right-0.5 w-6 h-6 rounded-full bg-[#0095f6] flex items-center justify-center border-2 border-white">
                     <Plus size={14} className="text-white" strokeWidth={3} />
                   </div>
                 )}
@@ -131,7 +131,6 @@ export function StoriesBar() {
           )}
 
           {otherGroups.map((group) => {
-            // Находим реальный индекс в полном массиве groups
             const realIndex = groups.findIndex(
               (g) => g.user.id === group.user.id
             );
@@ -160,7 +159,7 @@ export function StoriesBar() {
       </div>
 
       {isViewerOpen && (
-        <div className="fixed inset-0 z-[100]">
+        <div className="fixed inset-0 z-100">
           {" "}
           <StoryViewer
             initialGroupIndex={activeGroupIndex}
@@ -173,7 +172,7 @@ export function StoriesBar() {
       )}
 
       {isCreateOpen && (
-        <div className="fixed inset-0 z-[100]">
+        <div className="fixed inset-0 z-100">
           <CreateStoryModal
             isOpen={isCreateOpen}
             onClose={() => setIsCreateOpen(false)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/widgets/header/ui/header";
 import { MessageCircle } from "lucide-react";
@@ -17,7 +17,7 @@ import {
 import { supabase } from "@/shared/lib/supabase/client";
 import { formatTimeAgo } from "@/shared/lib/utils";
 
-export default function DirectPage() {
+function DirectPageContent() {
   const searchParams = useSearchParams();
   const { currentUser } = useUserStore();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -462,5 +462,13 @@ export default function DirectPage() {
         </div>
       )}
     </>
+  );
+}
+
+export default function DirectPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Загрузка...</div>}>
+      <DirectPageContent />
+    </Suspense>
   );
 }
