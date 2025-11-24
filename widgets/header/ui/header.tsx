@@ -15,38 +15,40 @@ export function Header({ onCreateClick }: HeaderProps) {
 
   return (
     <>
-      {/* Desktop Header - Top */}
       <header className="hidden md:block fixed top-0 left-0 right-0 bg-white border-b border-[#dbdbdb] z-40">
         <div className="w-full px-5 h-[60px] flex items-center justify-center">
           <div className="max-w-[935px] w-full flex items-center justify-between gap-8">
-          {/* Logo */}
-          <Link href={ROUTES.HOME} className="font-['Satisfy',cursive] text-3xl flex-shrink-0">
+          <Link href={ROUTES.HOME} className="font-['Satisfy',cursive] text-3xl shrink-0">
             Russiagram
           </Link>
 
-          {/* Search */}
-          <div className="flex-1 max-w-[268px]">
+
+          <Link href="/search" className="flex-1 max-w-[268px]">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Поиск"
-                className="w-full h-9 pl-4 pr-4 bg-[#efefef] rounded-lg text-sm focus:outline-none placeholder:text-[#8e8e8e] border-0"
+                readOnly
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/search';
+                }}
+                className="w-full h-9 pl-4 pr-4 bg-[#efefef] rounded-lg text-sm focus:outline-none placeholder:text-[#8e8e8e] border-0 cursor-pointer"
               />
             </div>
-          </div>
+          </Link>
 
-          {/* Navigation */}
           <nav className="flex items-center gap-5">
-            <Link href="/" className="hover:opacity-60 transition-opacity">
+            <Link href={ROUTES.HOME} className="hover:opacity-60 transition-opacity">
               <Home size={24} strokeWidth={1.5} />
             </Link>
-            <Link href="/messages" className="hover:opacity-60 transition-opacity">
+            <Link href={ROUTES.MESSAGES} className="hover:opacity-60 transition-opacity">
               <MessageCircle size={24} strokeWidth={1.5} />
             </Link>
             <button onClick={onCreateClick} className="hover:opacity-60 transition-opacity">
               <PlusSquare size={24} strokeWidth={1.5} />
             </button>
-            <Link href="/explore" className="hover:opacity-60 transition-opacity">
+            <Link href="/search" className="hover:opacity-60 transition-opacity">
               <Search size={24} strokeWidth={1.5} />
             </Link>
             <Link href="/notifications" className="hover:opacity-60 transition-opacity">
@@ -66,7 +68,6 @@ export function Header({ onCreateClick }: HeaderProps) {
         </div>
       </header>
 
-      {/* Mobile Header - Top */}
       <header className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-[#dbdbdb] z-40">
         <div className="px-4 h-[60px] flex items-center justify-between">
           <Link href={ROUTES.HOME} className="font-['Satisfy',cursive] text-2xl">
@@ -86,13 +87,12 @@ export function Header({ onCreateClick }: HeaderProps) {
         </div>
       </header>
 
-      {/* Mobile Navigation - Bottom */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#dbdbdb] z-50">
         <div className="flex items-center justify-around h-14">
           <Link href={ROUTES.HOME} className="flex flex-col items-center justify-center flex-1 hover:opacity-60 transition-opacity">
             <Home size={24} strokeWidth={1.5} />
           </Link>
-          <Link href={ROUTES.EXPLORE} className="flex flex-col items-center justify-center flex-1 hover:opacity-60 transition-opacity">
+          <Link href="/search" className="flex flex-col items-center justify-center flex-1 hover:opacity-60 transition-opacity">
             <Search size={24} strokeWidth={1.5} />
           </Link>
           <Link href={ROUTES.REELS} className="flex flex-col items-center justify-center flex-1 hover:opacity-60 transition-opacity">

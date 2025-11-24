@@ -1,36 +1,43 @@
-import Image from 'next/image';
-import { cn } from '@/shared/lib/utils';
+import Image from "next/image";
+import { cn } from "@/shared/lib/utils";
 
 interface AvatarProps {
   src?: string | null;
   alt: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   className?: string;
   hasStory?: boolean;
   onClick?: () => void;
 }
 
-export function Avatar({ src, alt, size = 'md', className, hasStory, onClick }: AvatarProps) {
+export function Avatar({
+  src,
+  alt,
+  size = "md",
+  className,
+  hasStory,
+  onClick,
+}: AvatarProps) {
   const sizes = {
-    xs: 'w-6 h-6',
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-14 h-14',
-    xl: 'w-24 h-24',
+    xs: "w-6 h-6",
+    sm: "w-8 h-8",
+    md: "w-10 h-10",
+    lg: "w-[66px] h-[66px]",
+    xl: "w-24 h-24",
   };
 
   const storyRingSize = {
-    xs: 'p-[1.5px]',
-    sm: 'p-[2px]',
-    md: 'p-[2px]',
-    lg: 'p-[2.5px]',
-    xl: 'p-[3px]',
+    xs: "p-[1.5px]",
+    sm: "p-[2px]",
+    md: "p-[2px]",
+    lg: "p-[2.5px]",
+    xl: "p-[3px]",
   };
 
   const avatarContent = (
     <div
       className={cn(
-        'relative rounded-full overflow-hidden bg-gray-200 flex items-center justify-center',
+        "relative rounded-full overflow-hidden bg-gray-200 flex items-center justify-center",
         sizes[size],
         className
       )}
@@ -55,9 +62,9 @@ export function Avatar({ src, alt, size = 'md', className, hasStory, onClick }: 
     return (
       <div
         className={cn(
-          'rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500',
+          "rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500",
           storyRingSize[size],
-          onClick && 'cursor-pointer'
+          onClick && "cursor-pointer"
         )}
         onClick={onClick}
       >
@@ -67,7 +74,7 @@ export function Avatar({ src, alt, size = 'md', className, hasStory, onClick }: 
   }
 
   return (
-    <div onClick={onClick} className={onClick ? 'cursor-pointer' : ''}>
+    <div onClick={onClick} className={onClick ? "cursor-pointer" : ""}>
       {avatarContent}
     </div>
   );

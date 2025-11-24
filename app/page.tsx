@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Header } from '@/widgets/header/ui/header';
-import { Feed } from '@/widgets/feed/ui/feed';
-import { CreatePostModal } from '@/features/create-post/ui/create-post-modal';
+import { useState } from "react";
+import { Header } from "@/widgets/header/ui/header";
+import { Feed } from "@/widgets/feed/ui/feed";
+import { CreatePostModal } from "@/features/create-post/ui/create-post-modal";
 
 export default function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -11,7 +11,10 @@ export default function Home() {
   return (
     <>
       <Header onCreateClick={() => setIsCreateModalOpen(true)} />
-      <main className="pt-[80px] md:pt-[80px] pb-14 md:pb-0 min-h-screen bg-[#fafafa]">
+      <main
+        className="pt-[110px] pb-20 md:pb-8 bg-[#fafafa] min-h-screen"
+        style={{ paddingTop: "110px" }}
+      >
         <Feed />
       </main>
       <CreatePostModal

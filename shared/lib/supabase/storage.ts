@@ -8,6 +8,7 @@ export async function uploadFile(
   path: string,
   file: File
 ) {
+  console.log(`Attempting to upload to bucket: ${bucket}, path: ${path}`, file);
   const { data, error } = await supabase.storage
     .from(bucket)
     .upload(path, file, {
@@ -20,7 +21,7 @@ export async function uploadFile(
     throw error;
   }
 
-  // Получаем публичный URL
+
   const { data: { publicUrl } } = supabase.storage
     .from(bucket)
     .getPublicUrl(path);
@@ -28,12 +29,11 @@ export async function uploadFile(
   return publicUrl;
 }
 
-/**
- * Загрузка аватара пользователя
- */
+
 export async function uploadAvatar(userId: string, file: File) {
   const fileExt = file.name.split('.').pop();
   const fileName = `${userId}/avatar.${fileExt}`;
+  console.log('Uploading avatar:', { userId, fileName, file });
   
   return uploadFile('avatars', fileName, file);
 }

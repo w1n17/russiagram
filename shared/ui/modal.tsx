@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { ReactNode, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/shared/lib/utils';
+import { ReactNode, useEffect } from "react";
+import { createPortal } from "react-dom";
+import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/shared/lib/utils";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
   title?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   showCloseButton?: boolean;
 }
 
@@ -20,50 +20,50 @@ export function Modal({
   onClose,
   children,
   title,
-  size = 'md',
+  size = "md",
   showCloseButton = true,
 }: ModalProps) {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener("keydown", handleEscape);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen, onClose]);
 
   const sizes = {
-    sm: 'w-[400px]',
-    md: 'w-[600px]',
-    lg: 'w-[855px]',
-    xl: 'w-[1200px]',
+    sm: "w-[400px]",
+    md: "w-[700px]",
+    lg: "w-[855px]",
+    xl: "w-[1200px]",
   };
 
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
 
   return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -78,7 +78,7 @@ export function Modal({
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              'relative bg-white rounded-xl shadow-xl overflow-hidden',
+              "relative bg-white rounded-xl shadow-xl overflow-hidden max-h-[calc(100vh-40px)] flex flex-col",
               sizes[size]
             )}
             onClick={(e) => e.stopPropagation()}

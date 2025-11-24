@@ -24,13 +24,12 @@ export const useUserStore = create<UserState>((set) => ({
           .from('profiles')
           .select('*')
           .eq('id', user.id)
-          .maybeSingle(); // Изменено с .single() на .maybeSingle() - не вызывает ошибку если нет записи
+          .maybeSingle(); 
         
         if (error) {
           console.error('Error loading profile:', error);
         }
         
-        // Если профиля нет - создаем его вручную как fallback
         if (!profile && user) {
           console.log('Profile not found, creating...');
           const { data: newProfile } = await supabase
